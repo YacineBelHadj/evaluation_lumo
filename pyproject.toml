@@ -3,7 +3,7 @@ name = "evaluation-lumo"
 version = "0.1.2"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
     "pandas>=2.2.1",
 ]
