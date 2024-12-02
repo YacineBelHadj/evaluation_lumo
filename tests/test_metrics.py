@@ -13,16 +13,11 @@ TEST_CASES = [
     ([0.6, 0.7, 0.8, 0.9], 0.5, 1.0),
 ]
 
-@pytest.mark.parametrize("anomaly_scores, threshold, expected_tpr", TEST_CASES)
-def test_compute_tr(anomaly_scores, threshold, expected_tpr):
-    tpr = compute_tr(anomaly_scores, threshold)
+@pytest.mark.parametrize("damage_indexs, threshold, expected_tpr", TEST_CASES)
+def test_compute_tr(damage_indexs, threshold, expected_tpr):
+    tpr = compute_tr(damage_indexs, threshold)
     assert tpr == pytest.approx(expected_tpr, rel=1e-6)
 
-
-import pytest
-import numpy as np
-import pandas as pd
-from evaluation_lumo.metrics import mean_ratio
 
 # Define test cases for the mean_ratio function
 test_cases = [
@@ -56,9 +51,9 @@ def test_mean_ratio(case):
     # Test for warnings when applicable
     if expects_warning:
         with pytest.warns(UserWarning) as record:
-            ratio = mean_ratio(healthy_scores, damaged_scores)
+            ratio = mean_ratio(damage_index_healthy=healthy_scores, damage_index_damaged=damaged_scores)
             assert np.isclose(ratio, expected_ratio)
             assert expects_warning == (len(record) == 1)
     else:
-        ratio = mean_ratio(healthy_scores, damaged_scores)
+        ratio = mean_ratio(damage_index_healthy=healthy_scores, damage_index_damaged=damaged_scores)
         assert np.isclose(ratio, expected_ratio)

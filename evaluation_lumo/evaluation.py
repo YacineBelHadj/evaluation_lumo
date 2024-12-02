@@ -7,7 +7,7 @@ from functools import partial
 from typing import Union
 
 def prepare_dataframe(timestamps: Union[pd.Series, np.ndarray],
-                      anomaly_scores: Union[pd.Series, np.ndarray],
+                      damage_indexs: Union[pd.Series, np.ndarray],
                       events: dict | None = None,
                       train_start: str | None = None,
                       train_end: str | None = None) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
@@ -18,7 +18,7 @@ def prepare_dataframe(timestamps: Union[pd.Series, np.ndarray],
     ----------
     timestamps : pd.Series | np.array
         Array or series of timestamps.
-    anomaly_scores : pd.Series | np.array
+    damage_indexs : pd.Series | np.array
         Array or series of anomaly scores.
     events : dict | None, optional
         Dictionary with event details. Default is None. If not provided, `mat_state` from the `config` module will be used.
@@ -44,7 +44,7 @@ def prepare_dataframe(timestamps: Union[pd.Series, np.ndarray],
     
     # Create the dataframe and label events
 
-    data = pd.DataFrame({'timestamp': timestamps, 'score': anomaly_scores})
+    data = pd.DataFrame({'timestamp': timestamps, 'score': damage_indexs})
     events_list = label_events(data['timestamp'].values, events)
     data.loc[:, 'event'] = events_list.values
     train_data = data[(timestamps >= train_start) & (timestamps <= train_end)]['score'].values
@@ -52,7 +52,7 @@ def prepare_dataframe(timestamps: Union[pd.Series, np.ndarray],
     return data, train_data
 
 def compute_tr_by_events(timestamps: Union[pd.Series, np.ndarray],
-                         anomaly_scores: Union[pd.Series, np.ndarray],
+                         damage_indexs: Union[pd.Series, np.ndarray],
                          fpr_train: float = 0.01,
                          events: dict | None = None,
                          train_start: str | None = None,
@@ -62,7 +62,7 @@ def compute_tr_by_events(timestamps: Union[pd.Series, np.ndarray],
     The threshold is set to ensure the False Positive Rate (FPR) is 0.01 for healthy training data.
     """
     # Prepare the data
-    data, train_data = prepare_dataframe(timestamps, anomaly_scores, events, train_start, train_end)
+    data, train_data = prepare_dataframe(timestamps, damage_indexs, events, train_start, train_end)
 
     # Compute the threshold based on the training data
     threshold = np.quantile(train_data, 1 - fpr_train)
@@ -72,7 +72,7 @@ def compute_tr_by_events(timestamps: Union[pd.Series, np.ndarray],
 
 
 def compute_mean_variation(timestamps: Union[pd.Series, np.ndarray],
-                           anomaly_scores: Union[pd.Series, np.ndarray],
+                           damage_indexs: Union[pd.Series, np.ndarray],
                            events: dict | None = None,
                            train_start: str | None = None,
                            train_end: str | None = None) -> float:
@@ -80,9 +80,9 @@ def compute_mean_variation(timestamps: Union[pd.Series, np.ndarray],
     Compute the mean variation of anomaly scores for each event in the events dictionary.
     """
     # Prepare the data
-    data, train_data = prepare_dataframe(timestamps, anomaly_scores, events, train_start, train_end)
+    data, train_data = prepare_dataframe(timestamps, damage_indexs, events, train_start, train_end)
 
     # Compute mean variation for each event
-    mean_ratio_partial = partial(mean_ratio, anomaly_scores_healthy=train_data)
-    res = data.groupby('event').apply(lambda x: mean_ratio_partial(anomaly_scores_damaged=x['score']),include_groups=False) 
+    mean_ratio_partial = partial(mean_ratio, damage_index_healthy=train_data)
+    res = data.groupby('event').apply(lambda x: mean_ratio_partial(damage_index_damaged=x['score']),include_groups=False) 
     return res.to_dict()

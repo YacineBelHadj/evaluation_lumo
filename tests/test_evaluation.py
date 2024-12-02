@@ -17,8 +17,8 @@ def mock_events():
 @pytest.fixture
 def mock_data():
     timestamps = pd.date_range(start="2023-01-01", end="2023-01-20", freq="10min")
-    anomaly_scores = np.random.random(len(timestamps))  # Random anomaly scores
-    return timestamps, anomaly_scores
+    damage_indexs = np.random.random(len(timestamps))  # Random anomaly scores
+    return timestamps, damage_indexs
 
 @pytest.fixture
 def perfect_data():
@@ -46,8 +46,8 @@ def test_prepare_dataframe(mock_events, mock_data):
     """
     Test the `prepare_dataframe` function for correctness.
     """
-    timestamps, anomaly_scores = mock_data
-    data, train_data = prepare_dataframe(timestamps, anomaly_scores, mock_events)
+    timestamps, damage_indexs = mock_data
+    data, train_data = prepare_dataframe(timestamps, damage_indexs, mock_events)
 
     # Assert the output types
     assert isinstance(data, pd.DataFrame), "Data should be a pandas DataFrame."
@@ -66,12 +66,12 @@ def test_compute_tr_by_events(mock_events, mock_data):
     """
     Test the `compute_tr_by_events` function for correctness.
     """
-    timestamps, anomaly_scores = mock_data
+    timestamps, damage_indexs = mock_data
 
     # Run the function
     result,tr = compute_tr_by_events(
         timestamps=timestamps,
-        anomaly_scores=anomaly_scores,
+        damage_indexs=damage_indexs,
         fpr_train=0.01,
         events=mock_events
     )
@@ -89,12 +89,12 @@ def test_compute_mean_variation(mock_events, mock_data):
     """
     Test the `compute_mean_variation` function for correctness.
     """
-    timestamps, anomaly_scores = mock_data
+    timestamps, damage_indexs = mock_data
 
     # Run the function
     result = compute_mean_variation(
         timestamps=timestamps,
-        anomaly_scores=anomaly_scores,
+        damage_indexs=damage_indexs,
         events=mock_events
     )
 
@@ -114,19 +114,15 @@ def test_compute_tr_by_events_perfect_detector(mock_events, perfect_data):
     """
     Test `compute_tr_by_events` function with a perfect detector scenario.
     """
-    timestamps, anomaly_scores = perfect_data
+    timestamps, damage_indexs = perfect_data
 
     # Run the function
     result,tr = compute_tr_by_events(
         timestamps=timestamps,
-        anomaly_scores=anomaly_scores,
+        damage_indexs=damage_indexs,
         fpr_train=0.01,
         events=mock_events
     )
-    print('*----------*')
-    print(result)
-    print('*----------*')
-
 
     # True Positive Rate (TPR) should be 1.0 for `damage_1` and 0.0 for healthy events
     assert result['damage_1'] == pytest.approx(1.0, rel=1e-6), "TPR for damage_1 should be 1.0."
@@ -137,12 +133,12 @@ def test_compute_mean_variation_perfect_detector(mock_events, perfect_data):
     """
     Test `compute_mean_variation` function with a perfect detector scenario.
     """
-    timestamps, anomaly_scores = perfect_data
+    timestamps, damage_indexs = perfect_data
 
     # Run the function
     result = compute_mean_variation(
         timestamps=timestamps,
-        anomaly_scores=anomaly_scores,
+        damage_indexs=damage_indexs,
         events=mock_events
     )
 
