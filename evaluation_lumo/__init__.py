@@ -1,1 +1,1 @@
-from evaluation_lumo import config
+from _version import __version__

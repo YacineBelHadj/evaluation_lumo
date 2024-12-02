@@ -1,6 +1,6 @@
 [project]
 name = "evaluation-lumo"
-version = "0.1.3"
+version = "0.1.4"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -11,3 +11,6 @@ dependencies = [
 [tool.uv]
 dev-dependencies = [
     "pytest>=8.3.4"]
+
+[tool.setuptools.dynamic]
+version = {attr = "evaluation_lumo.__version__"}
