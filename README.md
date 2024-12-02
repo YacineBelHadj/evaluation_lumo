@@ -14,4 +14,20 @@ The training dataset should be only the first moth of data
 To install the package, run:
 
 ```bash
-pip install lumo-eval
+pip install evaluation_lumo 
+
+## Usage
+
+To use the package, import the `evaluation_lumo.evaluation` module and call the `compute_tr_by_events` function or `compute_mean_variation` function. 
+
+```python
+from evaluation_lumo.evaluation import compute_tr_by_events, compute_mean_variation
+
+# Example usage
+
+date_index = pd.date_range(start='2021-08-01', ends="2022-08-01", freq='10T')
+associated_damage_index = np.random.random(len(date_index))
+compute_tr_by_events(date_index, associated_damage_index)
+compute_mean_variation(date_index, associated_damage_index)
+```
+
