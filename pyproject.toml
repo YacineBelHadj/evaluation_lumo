@@ -24,7 +24,7 @@ maintainers = [{ name = "Yacine Bel-Hadj", email = "yacine.bel-hadj@vub.be" }]
 # -- Project dependencies.
 requires-python = ">=3.9.0"
 dependencies = [
-    "pandas==2.2.1",
+    "pandas>2",
 ]
 
 [project.urls]
@@ -192,7 +192,7 @@ norecursedirs = [".bzr", ".direnv", ".eggs", ".git", ".git-rewrite", ".hg",
                  "buck-out", "build", "dist", "node_modules", "venv", "api",
                  "docs", "notebooks", "scripts", "test", "config", "docker",
                  "logs"]
-minversion = "6.0"
+minversion = "8.0"
 addopts = "-ra -q"
 testpaths = [
     "test",
