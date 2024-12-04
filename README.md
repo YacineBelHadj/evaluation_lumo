@@ -4,7 +4,7 @@ This package provides a standardized framework for evaluating damage detection a
 
 ## Features
 
-- **Standardized Evaluation Metrics**: Calculates TPR and FPR at a threshold set such as FPR for training data is 1%. 
+- **Standardized Evaluation Metrics**: Calculates TPR and FPR at a threshold set such as FPR for training data is 1%.
 The training dataset should be only the first moth of data
 - **Damage Case Analysis**: Provides detailed performance evaluations for each specific damage scenario within the LUMO dataset.
 
@@ -14,11 +14,11 @@ The training dataset should be only the first moth of data
 To install the package, run:
 
 ```bash
-pip install evaluation_lumo 
+pip install evaluation_lumo
 
 ## Usage
 
-To use the package, import the `evaluation_lumo.evaluation` module and call the `compute_tr_by_events` function or `compute_mean_variation` function. 
+To use the package, import the `evaluation_lumo.evaluation` module and call the `compute_tr_by_events` function or `compute_mean_variation` function.
 
 ```python
 from evaluation_lumo.evaluation import compute_tr_by_events, compute_mean_variation
@@ -30,4 +30,3 @@ associated_damage_index = np.random.random(len(date_index))
 compute_tr_by_events(date_index, associated_damage_index)
 compute_mean_variation(date_index, associated_damage_index)
 ```
-

@@ -1,12 +1,13 @@
-import numpy as np
-import pandas as pd
 import warnings
 from sys import float_info
+
+import numpy as np
+import pandas as pd
+
 eps = float_info.epsilon
 
 
-
-def compute_tr(damage_index:np.ndarray | pd.Series, threshold:float) -> float:
+def compute_tr(damage_index: np.ndarray | pd.Series, threshold: float) -> float:
     """
     Compute the Trigger Rate (TPR/FPR) given anomaly scores and a threshold.
 
@@ -24,7 +25,11 @@ def compute_tr(damage_index:np.ndarray | pd.Series, threshold:float) -> float:
 
     return np.sum(damage_index > threshold) / len(damage_index)
 
-def mean_ratio(damage_index_healthy: np.ndarray | pd.Series, damage_index_damaged: np.ndarray | pd.Series) -> float:
+
+def mean_ratio(
+    damage_index_healthy: np.ndarray | pd.Series,
+    damage_index_damaged: np.ndarray | pd.Series,
+) -> float:
     """
     Compute the mean ratio of anomaly scores between healthy and damaged states.
 
@@ -39,12 +44,12 @@ def mean_ratio(damage_index_healthy: np.ndarray | pd.Series, damage_index_damage
         damage_index_healthy = damage_index_healthy.values
     if isinstance(damage_index_damaged, pd.Series):
         damage_index_damaged = damage_index_damaged.values
-        
+
     if isinstance(damage_index_healthy, list):
         damage_index_healthy = np.array(damage_index_healthy)
     if isinstance(damage_index_damaged, list):
         damage_index_damaged = np.array(damage_index_damaged)
-    
+
     # Compute the range of healthy scores
     range_healthy = np.max(damage_index_healthy) - np.min(damage_index_healthy)
 
@@ -52,10 +57,14 @@ def mean_ratio(damage_index_healthy: np.ndarray | pd.Series, damage_index_damage
     if range_healthy == 0:
         warnings.warn(
             "Range of healthy anomaly scores is 0. Using a fallback range of 1.",
-            UserWarning
+            UserWarning,
         )
         range_healthy = 1
 
     # Compute the mean ratio
-    res = np.mean(damage_index_damaged) / (np.mean(damage_index_healthy)+eps) / (range_healthy+eps)
+    res = (
+        np.mean(damage_index_damaged)
+        / (np.mean(damage_index_healthy) + eps)
+        / (range_healthy + eps)
+    )
     return res

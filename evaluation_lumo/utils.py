@@ -1,5 +1,6 @@
 import pandas as pd
-import numpy as np
+
+
 def label_events(timestamps, events):
     """
     Label each timestamp based on defined events.
@@ -14,11 +15,10 @@ def label_events(timestamps, events):
     # Initialize labels with the same index as timestamps and with no event
     labels = pd.Series(index=timestamps, dtype=object)
     labels = labels.fillna("no_event")
-
     # Assign labels based on events
     for event_name, event_info in events.items():
-        start = pd.to_datetime(event_info['start'])
-        end = pd.to_datetime(event_info['end'])
+        start = pd.to_datetime(event_info["start"])
+        end = pd.to_datetime(event_info["end"])
         mask = (timestamps >= start) & (timestamps <= end)
         labels.loc[mask] = event_name
     return labels
