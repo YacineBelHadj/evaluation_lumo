@@ -28,8 +28,8 @@ dependencies = [
 ]
 
 [project.urls]
-"Documentation" = ""
-"Homepage" = ""
+# "Documentation" = ""
+# "Homepage" = ""
 "Repository" = "https://github.com/YacineBelHadj/evaluation_lumo"
 
 [project.optional-dependencies]
