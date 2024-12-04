@@ -426,7 +426,7 @@ requires-dist = [
     { name = "jupytext", marker = "extra == 'ci'" },
     { name = "mypy", marker = "extra == 'ci'", specifier = "==1.*" },
     { name = "myst-parser", marker = "extra == 'docs'" },
-    { name = "pandas", specifier = "==2.2.1" },
+    { name = "pandas", specifier = ">2" },
     { name = "pandas-stubs", marker = "extra == 'test'" },
     { name = "pre-commit", marker = "extra == 'ci'", specifier = "==3.*" },
     { name = "pycln", marker = "extra == 'ci'", specifier = "==2.4.*" },
