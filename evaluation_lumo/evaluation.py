@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from functools import partial
-from typing import Union
 
 import numpy as np
 import pandas as pd
@@ -10,8 +11,8 @@ from evaluation_lumo.utils import label_events
 
 
 def prepare_dataframe(
-    timestamps: Union[pd.Series, np.ndarray],
-    damage_indexs: Union[pd.Series, np.ndarray],
+    timestamps: pd.Series | np.ndarray,
+    damage_indexs: pd.Series | np.ndarray,
     events: dict | None = None,
     train_start: str | None = None,
     train_end: str | None = None,
@@ -59,8 +60,8 @@ def prepare_dataframe(
 
 
 def compute_tr_by_events(
-    timestamps: Union[pd.Series, np.ndarray],
-    damage_indexs: Union[pd.Series, np.ndarray],
+    timestamps: pd.Series | np.ndarray,
+    damage_indexs: pd.Series | np.ndarray,
     fpr_train: float = 0.01,
     events: dict | None = None,
     train_start: str | None = None,
@@ -85,8 +86,8 @@ def compute_tr_by_events(
 
 
 def compute_mean_variation(
-    timestamps: Union[pd.Series, np.ndarray],
-    damage_indexs: Union[pd.Series, np.ndarray],
+    timestamps: pd.Series | np.ndarray,
+    damage_indexs: pd.Series | np.ndarray,
     events: dict | None = None,
     train_start: str | None = None,
     train_end: str | None = None,
