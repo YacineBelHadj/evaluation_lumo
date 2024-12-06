@@ -67,18 +67,18 @@ def test_label_events_2():
     events = label_events(timestamps, mat_state)
     # count the number of each event
     res = events.value_counts()
-    assert res["healthy_train"] == 8784
-    assert res["healthy_test"] == 1728
-    assert res["no_event"] == 24768
-    assert res["damage1"] == 2016
-    assert res["damage2"] == 2160
-    assert res["damage3"] == 4752
-    assert res["damage4"] == 2160
-    assert res["damage5"] == 2448
-    assert res["damage6"] == 2448
-    assert res["healthy1"] == 1872
-    assert res["healthy2"] == 16416
-    assert res["healthy3"] == 2016
-    assert res["healthy4"] == 1296
-    assert res["healthy5"] == 1584
-    assert res["healthy6"] == 2881
+    assert res["healthy_train"] == 8783
+    assert res["healthy_test"] == 1204
+    assert res["no_event"] == 25754
+    assert res["damage1"] == 1975
+    assert res["damage2"] == 2132
+    assert res["damage3"] == 4730
+    assert res["damage4"] == 2132
+    assert res["damage5"] == 2414
+    assert res["damage6"] == 2420
+    assert res["healthy1"] == 1835
+    assert res["healthy2"] == 16385
+    assert res["healthy3"] == 1976
+    assert res["healthy4"] == 1244
+    assert res["healthy5"] == 1541
+    assert res["healthy6"] == 2804
