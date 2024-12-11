@@ -6,7 +6,8 @@ import numpy as np
 import pandas as pd
 
 from evaluation_lumo.config import mat_state
-from evaluation_lumo.metrics import compute_tr, mean_ratio
+from evaluation_lumo.metrics import compute_tr, mean_ratio, smad
+
 from evaluation_lumo.utils import label_events
 
 
@@ -63,9 +64,9 @@ def compute_tr_by_events(
     timestamps: pd.Series | np.ndarray,
     damage_indexs: pd.Series | np.ndarray,
     fpr_train: float = 0.01,
-    events: dict | None = None,
-    train_start: str | None = None,
-    train_end: str | None = None,
+    events: dict | None = None, # Leave as None
+    train_start: str | None = None, # Leave as None
+    train_end: str | None = None, # Leave as None
 ) -> dict:
     """
     Compute the True Rate (TR) for each event in the events dictionary.
@@ -88,9 +89,9 @@ def compute_tr_by_events(
 def compute_mean_variation(
     timestamps: pd.Series | np.ndarray,
     damage_indexs: pd.Series | np.ndarray,
-    events: dict | None = None,
-    train_start: str | None = None,
-    train_end: str | None = None,
+    events: dict | None = None, # Leave as None
+    train_start: str | None = None, # Leave as None
+    train_end: str | None = None, # Leave as None
 ) -> float:
     """
     Compute the mean variation of anomaly scores for each event in the events dictionary.
@@ -105,5 +106,44 @@ def compute_mean_variation(
     res = data.groupby("event").apply(
         lambda x: mean_ratio_partial(damage_index_damaged=x["score"]),
         include_groups=False,
+    )
+    return res.to_dict()
+
+def compute_smad(
+    timestamps: pd.Series | np.ndarray,
+    damage_indexs: pd.Series | np.ndarray,
+    events: dict | None = None, # Leave as None
+    train_start: str | None = None, # Leave as None
+    train_end: str | None = None, # Leave as None
+) -> dict:
+    """
+    Compute the Standardized Median Absolute Deviation (SMAD) for each event in the events dictionary.
+
+    Parameters:
+    ----------
+    timestamps : pd.Series | np.ndarray
+        Array or series of timestamps.
+    damage_indexs : pd.Series | np.ndarray
+        Array or series of anomaly scores.
+    events : dict | None, optional
+        Dictionary with event details. Default is None.
+    train_start : str | None, optional
+        Start timestamp for the training window. Default is None.
+    train_end : str | None, optional
+        End timestamp for the training window. Default is None.
+
+    Returns:
+    -------
+    dict
+        A dictionary with SMAD values for each event.
+    """
+    # Prepare the data
+    data, _ = prepare_dataframe(
+        timestamps, damage_indexs, events, train_start, train_end
+    )
+
+    # Compute SMAD for each event
+    res = data.groupby("event").apply(
+        lambda x: smad(x["score"]), include_groups=False
     )
     return res.to_dict()
