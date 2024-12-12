@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+
 from evaluation_lumo.metrics import smad
 
 # Define test cases for SMAD
@@ -15,6 +16,7 @@ TEST_CASES_SMAD = [
     # Scenario 5: Single value in series
     ([1.0], 0.0),
 ]
+
 
 @pytest.mark.parametrize("time_series, expected_smad", TEST_CASES_SMAD)
 def test_smad(time_series, expected_smad):

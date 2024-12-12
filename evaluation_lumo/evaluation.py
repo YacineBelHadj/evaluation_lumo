@@ -7,7 +7,6 @@ import pandas as pd
 
 from evaluation_lumo.config import mat_state
 from evaluation_lumo.metrics import compute_tr, mean_ratio, smad
-
 from evaluation_lumo.utils import label_events
 
 
@@ -64,9 +63,9 @@ def compute_tr_by_events(
     timestamps: pd.Series | np.ndarray,
     damage_indexs: pd.Series | np.ndarray,
     fpr_train: float = 0.01,
-    events: dict | None = None, # Leave as None
-    train_start: str | None = None, # Leave as None
-    train_end: str | None = None, # Leave as None
+    events: dict | None = None,  # Leave as None
+    train_start: str | None = None,  # Leave as None
+    train_end: str | None = None,  # Leave as None
 ) -> dict:
     """
     Compute the True Rate (TR) for each event in the events dictionary.
@@ -89,9 +88,9 @@ def compute_tr_by_events(
 def compute_mean_variation(
     timestamps: pd.Series | np.ndarray,
     damage_indexs: pd.Series | np.ndarray,
-    events: dict | None = None, # Leave as None
-    train_start: str | None = None, # Leave as None
-    train_end: str | None = None, # Leave as None
+    events: dict | None = None,  # Leave as None
+    train_start: str | None = None,  # Leave as None
+    train_end: str | None = None,  # Leave as None
 ) -> float:
     """
     Compute the mean variation of anomaly scores for each event in the events dictionary.
@@ -109,12 +108,13 @@ def compute_mean_variation(
     )
     return res.to_dict()
 
+
 def compute_smad(
     timestamps: pd.Series | np.ndarray,
     damage_indexs: pd.Series | np.ndarray,
-    events: dict | None = None, # Leave as None
-    train_start: str | None = None, # Leave as None
-    train_end: str | None = None, # Leave as None
+    events: dict | None = None,  # Leave as None
+    train_start: str | None = None,  # Leave as None
+    train_end: str | None = None,  # Leave as None
 ) -> dict:
     """
     Compute the Standardized Median Absolute Deviation (SMAD) for each event in the events dictionary.

@@ -70,6 +70,8 @@ def mean_ratio(
         / (range_healthy + eps)
     )
     return res
+
+
 def smad(
     time_series: np.ndarray | pd.Series,
     epsilon: float = 1e-8,
