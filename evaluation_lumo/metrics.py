@@ -72,19 +72,17 @@ def mean_ratio(
     return res
 
 
-def smad(
+def compute_mad(
     time_series: np.ndarray | pd.Series,
-    epsilon: float = 1e-8,
 ) -> float:
     """
-    Compute the Standardized Median Absolute Deviation (SMAD) for a time series.
+    Compute the Median Absolute Deviation (MAD) for a time series.
 
     Parameters:
     - time_series (array-like): Input time series data.
-    - epsilon (float, optional): Small constant to avoid division by zero. Default is 1e-8.
 
     Returns:
-    - float: SMAD, a scale-invariant measure of dispersion.
+    - float: MAD, a scale-variant measure of dispersion.
     """
     if isinstance(time_series, pd.Series):
         time_series = time_series.values
@@ -96,4 +94,4 @@ def smad(
 
     median = np.median(time_series)
     mad = np.median(np.abs(time_series - median))
-    return mad / (np.median(np.abs(time_series)) + epsilon)
+    return mad

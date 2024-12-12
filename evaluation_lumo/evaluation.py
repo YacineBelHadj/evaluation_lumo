@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from evaluation_lumo.config import mat_state
-from evaluation_lumo.metrics import compute_tr, mean_ratio, smad
+from evaluation_lumo.metrics import compute_mad, compute_tr, mean_ratio
 from evaluation_lumo.utils import label_events
 
 
@@ -138,12 +138,13 @@ def compute_smad(
         A dictionary with SMAD values for each event.
     """
     # Prepare the data
-    data, _ = prepare_dataframe(
+    data, training_data = prepare_dataframe(
         timestamps, damage_indexs, events, train_start, train_end
     )
-
+    iqr = np.quantile(training_data, 0.99) - np.quantile(training_data, 0.01)
     # Compute SMAD for each event
     res = data.groupby("event").apply(
-        lambda x: smad(x["score"]), include_groups=False
+        lambda x: compute_mad(x["score"]) / iqr, include_groups=False
     )
+
     return res.to_dict()
