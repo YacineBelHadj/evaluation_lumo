@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from evaluation_lumo.config import mat_state
-from evaluation_lumo.metrics import compute_mad, compute_tr, mean_ratio
+from evaluation_lumo.metrics import compute_tr, mad, mean_ratio
 from evaluation_lumo.utils import label_events
 
 
@@ -144,7 +144,7 @@ def compute_nmad(
     iqr = np.quantile(training_data, 0.99) - np.quantile(training_data, 0.01)
     # Compute SMAD for each event
     res = data.groupby("event").apply(
-        lambda x: compute_mad(x["score"]) / iqr, include_groups=False
+        lambda x: mad(x["score"]) / iqr, include_groups=False
     )
 
     return res.to_dict()
