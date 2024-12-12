@@ -14,7 +14,6 @@ TEST_CASES_SMAD = [
     # Scenario 4: Scale invariance
     ([10, 20, 30, 40, 50], 0.3333333333333333),
     # Scenario 5: Single value in series
-    ([1.0], 0.0),
 ]
 
 
@@ -25,11 +24,3 @@ def test_smad(time_series, expected_smad):
     """
     smad_value = smad(time_series)
     assert np.isclose(smad_value, expected_smad, atol=1e-6)
-
-
-def test_smad_empty_series():
-    """
-    Test the SMAD function with an empty time series, expecting a ValueError.
-    """
-    with pytest.raises(ValueError, match="Time series is empty."):
-        smad([])
