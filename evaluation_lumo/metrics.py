@@ -72,7 +72,7 @@ def mean_ratio(
     return res
 
 
-def compute_mad(
+def mad(
     time_series: np.ndarray | pd.Series,
 ) -> float:
     """

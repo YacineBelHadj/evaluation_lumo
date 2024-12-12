@@ -109,7 +109,7 @@ def compute_mean_variation(
     return res.to_dict()
 
 
-def compute_smad(
+def compute_nmad(
     timestamps: pd.Series | np.ndarray,
     damage_indexs: pd.Series | np.ndarray,
     events: dict | None = None,  # Leave as None
@@ -117,7 +117,7 @@ def compute_smad(
     train_end: str | None = None,  # Leave as None
 ) -> dict:
     """
-    Compute the Standardized Median Absolute Deviation (SMAD) for each event in the events dictionary.
+    Compute the  Median Absolute Deviation (MAD) for each event in the events dictionary.
 
     Parameters:
     ----------
