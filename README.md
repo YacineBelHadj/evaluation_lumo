@@ -28,7 +28,7 @@ from evaluation_lumo.evaluation import compute_tr_by_events, compute_mean_variat
 date_index = pd.date_range(start='2021-08-01', ends="2022-08-01", freq='10T')
 associated_damage_index = np.random.random(len(date_index))
 compute_tr_by_events(date_index, associated_damage_index)
-compute_mean_variation(date_index, associated_damage_index)
+compute_median_variation(date_index, associated_damage_index)
 compute_mad(date_index, associated_damage_index)
 ```
 
@@ -41,4 +41,4 @@ run the following command to install pre-commit:
 ```bash
 pre-commit run --all-files
 ```
-then
+then push your changes.
