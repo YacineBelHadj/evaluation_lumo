@@ -31,3 +31,14 @@ compute_tr_by_events(date_index, associated_damage_index)
 compute_mean_variation(date_index, associated_damage_index)
 compute_mad(date_index, associated_damage_index)
 ```
+
+## Contributing
+
+pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+pre-commit is used to ensure code quality. Please install it before making any changes.
+run the following command to install pre-commit:
+
+```bash
+pre-commit run --all-files
+```
+then

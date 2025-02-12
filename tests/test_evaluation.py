@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 
 from evaluation_lumo.evaluation import (
-    compute_mean_variation,
+    compute_median_variation,
     compute_tr_by_events,
     prepare_dataframe,
 )
@@ -132,7 +132,7 @@ def test_compute_mean_variation(mock_events, mock_data):
     timestamps, damage_indexs = mock_data
 
     # Run the function
-    result = compute_mean_variation(
+    result = compute_median_variation(
         timestamps=timestamps, damage_indexs=damage_indexs, events=mock_events
     )
 
@@ -182,7 +182,7 @@ def test_compute_mean_variation_perfect_detector(mock_events, perfect_data):
     timestamps, damage_indexs = perfect_data
 
     # Run the function
-    result = compute_mean_variation(
+    result = compute_median_variation(
         timestamps=timestamps, damage_indexs=damage_indexs, events=mock_events
     )
 

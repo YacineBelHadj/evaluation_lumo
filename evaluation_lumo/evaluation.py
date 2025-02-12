@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from evaluation_lumo.config import mat_state
-from evaluation_lumo.metrics import compute_tr, mad, mean_ratio
+from evaluation_lumo.metrics import compute_tr, mad, median_ratio
 from evaluation_lumo.utils import label_events
 
 
@@ -85,7 +85,7 @@ def compute_tr_by_events(
     return res.to_dict(), threshold
 
 
-def compute_mean_variation(
+def compute_median_variation(
     timestamps: pd.Series | np.ndarray,
     damage_indexs: pd.Series | np.ndarray,
     events: dict | None = None,  # Leave as None
@@ -101,9 +101,11 @@ def compute_mean_variation(
     )
 
     # Compute mean variation for each event
-    mean_ratio_partial = partial(mean_ratio, damage_index_healthy=train_data)
+    median_ratio_partial = partial(
+        median_ratio, damage_index_healthy=train_data
+    )
     res = data.groupby("event").apply(
-        lambda x: mean_ratio_partial(damage_index_damaged=x["score"]),
+        lambda x: median_ratio_partial(damage_index_damaged=x["score"]),
         include_groups=False,
     )
     return res.to_dict()

@@ -71,12 +71,6 @@ repos:
     #     language: system
     #     types: [python]
     #     args: [--config-file=pyproject.toml]
-    -   id: jupytext
-        name: jupytext
-        entry: jupytext --sync --pipe black notebooks/* --to py:percent
-        language: system
-        always_run: true
-        pass_filenames: false
     -   id: pytest
         name: pytest
         entry: pytest

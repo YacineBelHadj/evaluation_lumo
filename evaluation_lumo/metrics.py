@@ -28,7 +28,7 @@ def compute_tr(damage_index: np.ndarray | pd.Series, threshold: float) -> float:
     return np.sum(damage_index > threshold) / len(damage_index)
 
 
-def mean_ratio(
+def median_ratio(
     damage_index_healthy: np.ndarray | pd.Series,
     damage_index_damaged: np.ndarray | pd.Series,
 ) -> float:
@@ -53,7 +53,9 @@ def mean_ratio(
         damage_index_damaged = np.array(damage_index_damaged)
 
     # Compute the range of healthy scores
-    range_healthy = np.max(damage_index_healthy) - np.min(damage_index_healthy)
+    range_healthy = np.percentile(damage_index_healthy, 99) - np.percentile(
+        damage_index_healthy, 1
+    )
 
     # Handle zero range by raising a warning and using a range of 1
     if range_healthy == 0:
@@ -65,8 +67,8 @@ def mean_ratio(
 
     # Compute the mean ratio
     res = (
-        np.mean(damage_index_damaged)
-        / (np.mean(damage_index_healthy) + eps)
+        np.median(damage_index_damaged)
+        / (np.median(damage_index_healthy) + eps)
         / (range_healthy + eps)
     )
     return res

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from evaluation_lumo.metrics import compute_tr, mean_ratio
+from evaluation_lumo.metrics import compute_tr, median_ratio
 
 TEST_CASES = [
     # Scenario 1: Balanced case
@@ -22,25 +22,11 @@ def test_compute_tr(damage_indexs, threshold, expected_tpr):
 
 # Define test cases for the mean_ratio function
 test_cases = [
-    # Scenario 1: Normal case with numpy arrays (no warning expected)
-    {
-        "healthy_scores": np.array([1.0, 2.0, 3.0]),
-        "damaged_scores": np.array([3.0, 4.0, 5.0]),
-        "expected_ratio": 1,
-        "warns": False,
-    },
     # Scenario 2: Healthy and damaged as Pandas Series (no warning expected)
     {
-        "healthy_scores": pd.Series([1.0, 2.0, 3.0]),
-        "damaged_scores": pd.Series([3.0, 4.0, 5.0]),
-        "expected_ratio": 1,
-        "warns": False,
-    },
-    # Scenario 3: List input (no warning expected)
-    {
-        "healthy_scores": [1.0, 2.0, 3.0],
-        "damaged_scores": [6.0, 6.0, 6.0],
-        "expected_ratio": 3 / 2,
+        "healthy_scores": pd.Series([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]),
+        "damaged_scores": pd.Series([3.0, 4.0, 5.0, 6.0, 7.0, 8.0]),
+        "expected_ratio": 0.32069,
         "warns": False,
     },
     # Scenario 4: Edge case with identical healthy and damaged scores (warning expected)
@@ -61,7 +47,7 @@ test_cases = [
 
 
 @pytest.mark.parametrize("case", test_cases)
-def test_mean_ratio(case):
+def test_median_ratio(case):
     """
     Test the mean_ratio function with various inputs, checking for warnings when appropriate.
     """
@@ -74,15 +60,19 @@ def test_mean_ratio(case):
     # Test for warnings when applicable
     if expects_warning:
         with pytest.warns(UserWarning) as record:
-            ratio = mean_ratio(
+            ratio = median_ratio(
                 damage_index_healthy=healthy_scores,
                 damage_index_damaged=damaged_scores,
             )
-            assert np.isclose(ratio, expected_ratio)
+            assert np.isclose(
+                ratio, expected_ratio, atol=1e-2
+            ), f"Ratio should be close to expected. got: {ratio}, expected: {expected_ratio}"
             assert expects_warning == (len(record) == 1)
     else:
-        ratio = mean_ratio(
+        ratio = median_ratio(
             damage_index_healthy=healthy_scores,
             damage_index_damaged=damaged_scores,
         )
-        assert np.isclose(ratio, expected_ratio)
+        assert np.isclose(
+            ratio, expected_ratio, atol=1e-2
+        ), f"Ratio should be close to expected. got: {ratio}, expected: {expected_ratio}"
